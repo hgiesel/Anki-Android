@@ -66,6 +66,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.webkit.ConsoleMessage;
 import android.webkit.JavascriptInterface;
 import android.webkit.JsResult;
 import android.webkit.RenderProcessGoneDetail;
@@ -2747,6 +2748,11 @@ public abstract class AbstractFlashcardViewer extends NavigationDrawerActivity i
      * Provides a hook for calling "alert" from javascript. Useful for debugging your javascript.
      */
     public static final class AnkiDroidWebChromeClient extends WebChromeClient {
+        @Override
+        public boolean onConsoleMessage(ConsoleMessage consoleMessage) {
+            return consoleMessage.message().contains("MathJax localStorage error");
+        }
+
         @Override
         public boolean onJsAlert(WebView view, String url, String message, JsResult result) {
             Timber.i("AbstractFlashcardViewer:: onJsAlert: %s", message);
